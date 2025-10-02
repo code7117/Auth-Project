@@ -5,41 +5,53 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { userData,backendUrl, setIsLoggedin,setUserData} = useContext(AppContext);
+  const { userData, backendUrl, setIsLoggedin, setUserData } = useContext(AppContext);
 
-  const sendVerifiactionOtp = async()=>{
+  const token = Cookies.get("token"); // ✅ Get token from cookie
+
+  const sendVerifiactionOtp = async () => {
     try {
-      axios.defaults.withCredentials=true;
-      const{data} = await axios.post(backendUrl + '/api/auth/send-verify-otp')
+      const { data } = await axios.post(
+        backendUrl + '/api/auth/send-verify-otp',
+        {},
+        { headers: { Authorization: `Bearer ${token}` } } // send token
+      );
 
-      if(data.status){
-        navigate('/email-verify')
-        toast.success(data.message)
-
-      }else{
-        toast.error(data.message)
+      if (data.status) {
+        navigate('/email-verify');
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
       }
     } catch (err) {
       console.log(err);
       toast.error(err.message);
     }
-  }
-  const logout = async()=>{
+  };
+
+  const logout = async () => {
     try {
-      axios.defaults.withCredentials = true
-      const {data}=await axios.post(backendUrl + '/api/auth/logout')
-      data.status && setIsLoggedin(false)
-      data.status && setUserData(false)
-      navigate('/')
+      const { data } = await axios.post(
+        backendUrl + '/api/auth/logout',
+        {},
+        { headers: { Authorization: `Bearer ${token}` } } // send token
+      );
+
+      if (data.status) {
+        setIsLoggedin(false);
+        setUserData(null);
+        Cookies.remove("token"); // ✅ Clear token from cookie
+        navigate('/');
+      }
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
-      
+      console.log(err);
+      toast.error(err.message);
     }
-  }
+  };
 
   const [open, setOpen] = useState(false);
   const timeoutRef = useRef(null);
@@ -50,7 +62,7 @@ const Navbar = () => {
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setOpen(false), 300); // 300ms delay
+    timeoutRef.current = setTimeout(() => setOpen(false), 300);
   };
 
   return (
@@ -70,9 +82,9 @@ const Navbar = () => {
             onMouseLeave={handleMouseLeave}
           >
             <ul>
-              {!userData.isAccountVerified &&   <li onClick={sendVerifiactionOtp}>Verify Email</li>
-              }
-            
+              {!userData.isAccountVerified && (
+                <li onClick={sendVerifiactionOtp}>Verify Email</li>
+              )}
               <li onClick={logout}>Logout</li>
             </ul>
           </div>
