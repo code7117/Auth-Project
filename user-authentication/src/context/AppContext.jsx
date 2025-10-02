@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+  const backendUrl = "https://auth-project-f3ag.onrender.com";
   console.log("Backend URL:", backendUrl);
 
   const [isLoggedin, setIsLoggedin] = useState(false);
