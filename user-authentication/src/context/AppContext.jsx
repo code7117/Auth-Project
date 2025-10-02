@@ -1,30 +1,38 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export const AppContext = createContext();
-axios.defaults.withCredentials =true;
 
 export const AppContextProvider = ({ children }) => {
-  const backendUrl =  "https://auth-12-384f.onrender.com";
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
   console.log("Backend URL:", backendUrl);
 
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  // Fetch logged-in user data
+  // Fetch logged-in user data using token from cookie
   const getUserData = async () => {
     try {
+      const token = Cookies.get("token"); // ✅ Get token from cookie
+      if (!token) {
+        setUserData(null);
+        setIsLoggedin(false);
+        return;
+      }
+
       const response = await axios.get(`${backendUrl}/api/user/data`, {
-        withCredentials: true,
-   
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Send token
+        },
       });
 
       console.log("Raw user data response:", response);
 
       const user = response.data?.data;
       if (response.data?.status && user) {
-        setUserData(user);  // set only user object
+        setUserData(user);
         setIsLoggedin(true);
         console.log("User data fetched:", user);
       } else {
@@ -43,9 +51,13 @@ export const AppContextProvider = ({ children }) => {
   // Check authentication state on app load
   const getAuthState = async () => {
     try {
+      const token = Cookies.get("token");
+      if (!token) return;
+
       const response = await axios.get(`${backendUrl}/api/auth/is-auth`, {
-        withCredentials: true,
-   
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data?.status) {
@@ -66,7 +78,7 @@ export const AppContextProvider = ({ children }) => {
     setIsLoggedin,
     userData,
     setUserData,
-    getUserData
+    getUserData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
