@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { assets } from "../../assets/assets";
 import Styles from "./Login.module.css";
 import { AppContext } from "../../context/AppContext";
@@ -17,7 +18,6 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    axios.defaults.withCredentials = true;
 
     try {
       if (state === "Sign Up") {
@@ -25,10 +25,19 @@ const Login = () => {
           name,
           email,
           password,
-        },{ withCredentials: true });
+        });
+
         console.log("Register Response:", data);
 
         if (data.status) {
+          // Save token in cookie
+          Cookies.set("token", data.token, {
+            expires: 7,      // 7 days
+            path: "/",       // available on all routes
+            secure: true,    // HTTPS only
+            sameSite: "Strict" // prevent CSRF
+          });
+
           setIsLoggedin(true);
           await getUserData();
           toast.success("Account created successfully!");
@@ -40,10 +49,19 @@ const Login = () => {
         const { data } = await axios.post(`${backendUrl}/api/auth/login`, {
           email,
           password,
-        },{ withCredentials: true });
+        });
+
         console.log("Login Response:", data);
 
         if (data.status) {
+          // Save token in cookie
+          Cookies.set("token", data.token, {
+            expires: 7,
+            path: "/",
+            secure: true,
+            sameSite: "Strict",
+          });
+
           setIsLoggedin(true);
           await getUserData();
           toast.success("Login successful!");
@@ -71,9 +89,7 @@ const Login = () => {
           {state === "Sign Up" ? "Create Account" : "Login"}
         </h2>
         <p className={Styles.p}>
-          {state === "Sign Up"
-            ? "Create your account"
-            : "Login to your account!"}
+          {state === "Sign Up" ? "Create your account" : "Login to your account!"}
         </p>
 
         <form onSubmit={onSubmitHandler}>
@@ -115,10 +131,7 @@ const Login = () => {
             />
           </div>
 
-          <p
-            onClick={() => navigate("/reset-password")}
-            className={Styles.forgot}
-          >
+          <p onClick={() => navigate("/reset-password")} className={Styles.forgot}>
             Forgot password?
           </p>
           <button className={Styles.btn}>{state}</button>
