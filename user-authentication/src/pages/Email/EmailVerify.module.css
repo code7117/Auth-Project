@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 10px;
+  background: linear-gradient(to bottom right, #bfdbfe, #a78bfa);
+}
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+.form {
+  background-color: #0f172a;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  width: 384px;
+  color: white;
+  text-align: center;
+}
+h1 {
+  font-size: 15px;
+}
+.pt {
+  color: #a5b4fc;
+  padding: 10px;
+}
+.subcon {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.in {
+  width: 40px;
+  height: 40px;
+  background-color: #333a5c;
+  color: white;
+  border-radius: 6px;
+  font-size: 20px;
+  text-align: center;
+}
+.btn {
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  background: linear-gradient(to right, #6366f1, #312e81);
+  padding: 10px;
+  text-align: center;
+  color: white;
+  width: 150px;
+  display: block;
+  cursor: pointer;
+  margin: 30px auto;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Mobile devices (up to 425px) */
+@media (max-width: 425px) {
+  .form {
+    width: 90%; /* Use percentage for flexibility */
+    padding: 20px;
+  }
+  .in {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .logo {
+    margin-left: 10px; /* Adjust logo position */
+  }
+}
+
+/* Tablet devices (from 426px to 768px) */
+@media (min-width: 426px) and (max-width: 768px) {
+  .form {
+    width: 360px;
+  }
+}
+
+/* Desktop screens (from 769px and up) - No changes needed as the base CSS is already suitable */

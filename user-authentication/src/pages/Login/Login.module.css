@@ -1,0 +1,105 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 10px;
+     background: linear-gradient(
+    to bottom right,   
+    #bfdbfe,           
+    #a78bfa           
+  );
+}
+.logo{
+position: absolute;
+top:0;
+left:0;
+padding: 10px;
+margin-left: 20px;
+cursor: pointer;
+}
+.subcontainer{
+ background-color: #0f172a;
+  border-radius: 0.5rem; 
+    width: 20%;
+      color: #a5b4fc; 
+      padding: 20px;
+ 
+}
+.h2{
+    text-align: center;
+}
+.p{
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.formcontainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+margin-top: 10px;
+
+    padding: 10px;
+    border-radius: 20px;
+      background-color: #333A5C;
+      text-align: center;
+
+}
+.input{
+    background-color: transparent;
+    outline: none;
+    border: none;
+   
+}
+.forgot{
+    padding: 5px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  background: linear-gradient(to right, #6366F1, #312E81);
+  padding: 10px;
+  text-align: center;
+  color: white;
+  width: 150px;
+  display: block;        /* Make it a block element */
+ cursor: pointer;
+  margin: 10px auto;        /* Centers horizontally */
+}
+.al{
+  color: gray;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px;
+}
+.sp{
+  color: rgb(62, 62, 178);
+  cursor: pointer;
+  text-decoration: underline;
+}
+/* @media (max-width: 768px) {
+  .subcontainer {
+    width: 80%;
+  }
+} */
+ /* Media query for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .subcontainer {
+    width: 40%;
+  }
+}
+
+/* Media query for mobile phones */
+@media (max-width: 600px) {
+  .subcontainer {
+    width: 80%;
+  }
+}
+
+
+

@@ -1,0 +1,12 @@
+#Backend
+Backend/node_modules
+Backend/.env
+
+# Frontend
+user-authentication/node_modules/
+user-authentication/build/
+user-authentiaction/.env/
+
+# OS files
+.DS_Store
+Thumbs.db
